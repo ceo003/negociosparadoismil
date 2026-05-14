@@ -141,11 +141,11 @@ function fazerPagamentoDireto(metodo) {
   }
 
   // Se o WhatsApp for válido, chama a função de pagamento diretamente
-  fazerPagamento(metodo);
+  fazerPagamento(metodo, numero);
 }
 
 // Lógica de Pagamento Dinâmico
-async function fazerPagamento(metodo) {
+async function fazerPagamento(metodo, whatsappNumber) {
   // Pega todos os botões de pagamento
   const botoes = document.querySelectorAll('.payment-btn-final');
   
@@ -163,7 +163,7 @@ async function fazerPagamento(metodo) {
     const response = await fetch('/api/pagar', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ method: metodo })
+      body: JSON.stringify({ method: metodo, whatsapp: whatsappNumber })
     });
 
     // Se a resposta for um erro de rede ou servidor

@@ -15,8 +15,8 @@ export default async function handler(req, res) {
     }
 
     // Pegar dados do corpo da requisição
-    const { method } = req.body || {};
-    // Gerar referência única
+    const { method, whatsapp } = req.body || {};
+    // Gerar referência única (incluir WhatsApp para identificação)
     const reference = `REC${Date.now()}`;
 
     // Identificar o host automaticamente (funciona no .online ou no link da Vercel)
@@ -27,10 +27,10 @@ export default async function handler(req, res) {
     const body = {
       amount: 199,
       reference,
-      description: "Compra do ebook - 10 Negócios para Fazer com 2 Mil Meticais",
+      description: `Compra do ebook - WhatsApp: ${whatsapp || 'N/A'}`,
       method: method === 'emola' ? 'emola' : 'mpesa',
-      return_url: `${baseUrl}/obrigado.html`
-      // Removido callback_url daqui para evitar conflito com a configuração manual do painel
+      return_url: `${baseUrl}/obrigado.html`,
+      callback_url: `${baseUrl}/api/webhook`
     };
 
     console.log("Chamando PaySuite com baseUrl:", baseUrl);
